@@ -1,0 +1,26 @@
+def print_hi(name):
+    # Use a breakpoint in the code line below to debug your script.
+    with open('1.txt') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        mydict = {rows[0]: rows[1] for rows in csv_reader}
+        with open('2.txt') as normal_file2:
+            lines = normal_file2.readlines()
+            with open('out.csv', mode='w') as outfile:
+                for line in lines:
+                    old = line.rstrip().split(",");
+                    converted = ''
+                    for i in old:
+                        try:
+                            if(converted):
+                                converted = converted + "," + mydict[i.upper()]
+                            else:
+                                converted = mydict[i.upper()]
+                        except Exception as e:
+                            print('KeyError - ' + i.upper())
+                            if(converted):
+                                converted = converted + "," + i.upper()
+                            else:
+                                converted = i.upper()
+                    outfile.write(line.rstrip() + ':'+converted + "\n")
+
+        print(f'Processed.')
